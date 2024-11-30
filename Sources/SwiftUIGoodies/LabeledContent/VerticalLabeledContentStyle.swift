@@ -2,7 +2,6 @@ import SwiftUI
 
 @available(iOS 16, *)
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
-    
     public func makeBody(configuration: Configuration) -> some View {
         if #available(iOS 18, *) {
             VisibilityVerticalLabeledContent(configuration)
