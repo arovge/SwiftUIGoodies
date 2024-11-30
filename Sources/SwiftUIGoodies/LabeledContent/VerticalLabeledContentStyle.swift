@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(iOS 16, *)
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
     @Environment(\.labelsVisibility) var labelsVisibility
     
@@ -27,19 +28,7 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
     }
 }
 
+@available(iOS 16, *)
 extension LabeledContentStyle where Self == VerticalLabeledContentStyle {
     public static var vertical: VerticalLabeledContentStyle { .init() }
-}
-
-#Preview {
-    Form {
-        LabeledContent("Foo", value: "Bar")
-        LabeledContent("Foo", value: "Bar")
-            .labeledContentStyle(.vertical)
-        LabeledContent("Foo", value: "Bar")
-            .labelsHidden()
-        LabeledContent("Foo", value: "Bar")
-            .labeledContentStyle(.vertical)
-            .labelsHidden()
-    }
 }
