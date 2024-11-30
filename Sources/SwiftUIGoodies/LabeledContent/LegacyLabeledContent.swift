@@ -34,7 +34,7 @@ public struct LegacyLabeledContent<Label, Content>: View where Label: View, Cont
                 label()
                 Spacer()
                 content()
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
         }
     }
