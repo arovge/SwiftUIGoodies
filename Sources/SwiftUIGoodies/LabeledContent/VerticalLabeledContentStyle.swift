@@ -2,7 +2,9 @@ import SwiftUI
 
 @available(iOS 16, *)
 public struct VerticalLabeledContentStyle: LabeledContentStyle {
+    #if available(iOS 18)
     @Environment(\.labelsVisibility) var labelsVisibility
+    #endif
     
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading) {
@@ -19,12 +21,16 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
     }
     
     var showLabel: Bool {
+        #if available(iOS 18)
         switch labelsVisibility {
         case .automatic, .visible:
             true
         case .hidden:
             false
         }
+        #else
+        true
+        #endif
     }
 }
 
