@@ -10,7 +10,7 @@ public struct VerticalLabeledContentStyle: LabeledContentStyle {
                 configuration.label
                     .padding(.bottom, 2.5)
                 configuration.content
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 configuration.content
             }

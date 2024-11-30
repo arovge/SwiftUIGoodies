@@ -23,7 +23,7 @@ public struct LegacyLabeledContent<Label, Content>: View where Label: View, Cont
     }
     
     public var body: some View {
-        if #available(iOS 15, *) {
+        if #available(iOS 16, *) {
             LabeledContent {
                 content()
             } label: {
