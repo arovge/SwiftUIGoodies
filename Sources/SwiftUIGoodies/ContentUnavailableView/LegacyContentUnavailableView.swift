@@ -1,6 +1,5 @@
 import SwiftUI
 
-/// A container for attaching a label to a value-bearing view.
 @available(iOS 14, *)
 @available(iOS, deprecated: 16)
 public struct LegacyContentUnavailableView<Label, Description, Actions>: View where Label: View, Description: View, Actions: View {
