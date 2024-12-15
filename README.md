@@ -6,7 +6,7 @@ A collection of SwiftUI addons that I've found useful over time.
 In your `Package.swift`, add this line:
 
 ```swift
-.package(url: "https://github.com/arovge/SwiftUIGoodies", from: "0.1.0")
+.package(url: "https://github.com/arovge/SwiftUIGoodies", from: "0.2.0")
 ```
 
 In the relevant target(s) you'd like to use this package in, add this to the target dependencies:
