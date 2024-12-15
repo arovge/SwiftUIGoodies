@@ -25,7 +25,9 @@ Then simply use `import SwiftUIGoodies` in the appropriate file(s) to use these 
 - `LegacyLabeledContent` (iOS 13+)
     - A wrapper around `LabeledContent` 
 - `SimplePicker` (iOS 13+)
-    - A wrapper around `Picker` that eliminates possible run time errors when the selection and tagged item types are different.
+    - A wrapper around `SwiftUI.Picker` that eliminates possible run time errors when the selection and tagged item types are different.
+- `AdvancedPicker` (iOS 15+)
+    - A more advanced picker than `SwiftUI.Picker` and `SimplePicker`, offering search and clear functionality.
 
 ### Styles
 - `LabeledContent`
