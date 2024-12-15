@@ -17,8 +17,8 @@ public struct SimplePicker<
     Content: View
 >: View {
     let title: String
-    @Binding var selection: SelectionValue
     let items: [Item]
+    @Binding var selection: SelectionValue
     let content: (Item) -> Content
     let allowOptionalSelection: Bool
     
@@ -39,13 +39,13 @@ public struct SimplePicker<
 extension SimplePicker {
     public init(
         _ title: String,
-        selection: Binding<SelectionValue>,
         _ items: [Item],
+        selection: Binding<SelectionValue>,
         @ViewBuilder content: @escaping (Item) -> Content
     ) where SelectionValue == Item {
         self.title = title
-        self._selection = selection
         self.items = items
+        self._selection = selection
         self.content = content
         self.allowOptionalSelection = false
     }
@@ -54,13 +54,13 @@ extension SimplePicker {
 extension SimplePicker {
     public init(
         _ title: String,
-        selection: Binding<SelectionValue>,
         _ items: [Item],
+        selection: Binding<SelectionValue>,
         @ViewBuilder content: @escaping (Item) -> Content
     ) where SelectionValue == Optional<Item> {
         self.title = title
-        self._selection = selection
         self.items = items
+        self._selection = selection
         self.content = content
         self.allowOptionalSelection = true
     }

@@ -8,20 +8,23 @@ import SwiftUI
 @available(iOS 15, *)
 public struct AdvancedPicker<Item: Identifiable, Label: View>: View {
     let title: String
-    @Binding var selection: Item?
     let items: [Item]
+    let text: KeyPath<Item, String>?
+    @Binding var selection: Item?
     let label: (Item) -> Label
     @State var showPicker = false
     
     public init(
         _ title: String,
-        selection: Binding<Item?>,
         _ items: [Item],
+        text: KeyPath<Item, String>? = nil,
+        selection: Binding<Item?>,
         @ViewBuilder label: @escaping (Item) -> Label
     ) {
         self.title = title
-        self._selection = selection
         self.items = items
+        self.text = text
+        self._selection = selection
         self.label = label
     }
     
@@ -45,7 +48,12 @@ public struct AdvancedPicker<Item: Identifiable, Label: View>: View {
             }
         }
         .sheet(isPresented: $showPicker) {
-            AdvancedPickerRoute(title, items, selection: $selection) { item in
+            AdvancedPickerRoute(
+                title,
+                items,
+                text: text,
+                selection: $selection
+            ) { item in
                 label(item)
             }
         }
@@ -55,57 +63,83 @@ public struct AdvancedPicker<Item: Identifiable, Label: View>: View {
 @available(iOS 15, *)
 private struct AdvancedPickerRoute<Item: Identifiable, Label: View>: View {
     @Environment(\.dismiss) var dismiss
+    @State var search = ""
     let title: String
     let items: [Item]
+    let text: KeyPath<Item, String>?
     @Binding var selection: Item?
     let label: (Item) -> Label
     
     init(
         _ title: String,
         _ items: [Item],
+        text: KeyPath<Item, String>?,
         selection: Binding<Item?>,
         @ViewBuilder label: @escaping (Item) -> Label
     ) {
         self.title = title
         self.items = items
+        self.text = text
         self._selection = selection
         self.label = label
     }
     
     var body: some View {
         NavigationView {
-            List(items) { item in
-                Button {
-                    selection = item
-                    dismiss()
+            if text != nil {
+                content()
+                    .searchable(text: $search)
+            } else {
+                content()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func content() -> some View {
+        List(filteredItems) { item in
+            Button {
+                selection = item
+                dismiss()
+            } label: {
+                LegacyLabeledContent {
+                    if item.id == selection?.id {
+                        Image(systemName: "checkmark")
+                            .foregroundStyle(Color.accentColor)
+                    }
                 } label: {
-                    LegacyLabeledContent {
-                        if item.id == selection?.id {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(Color.accentColor)
-                        }
-                    } label: {
-                        label(item)
-                            .foregroundStyle(.foreground)
-                    }
+                    label(item)
+                        .foregroundStyle(.foreground)
                 }
             }
-            .navigationTitle("Select \(title)")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Clear") {
-                        selection = nil
-                        dismiss()
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        dismiss()
-                    }
+        }
+        .overlay {
+            if filteredItems.isEmpty {
+                LegacySearchUnavailableContent(text: search)
+            }
+        }
+        .navigationTitle("Select \(title)")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Clear") {
+                    selection = nil
+                    dismiss()
                 }
             }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+        }
+    }
+    
+    var filteredItems: [Item] {
+        guard let text, !search.isEmpty else { return items }
+        return items.filter { item in
+            item[keyPath: text].localizedCaseInsensitiveContains(search)
         }
     }
 }
@@ -127,8 +161,9 @@ private struct PreviewAdvancedPicker: View {
         if #available(iOS 15, *) {
             AdvancedPicker(
                 "Person",
-                selection: $option,
-                options
+                options,
+                text: \.name,
+                selection: $option
             ) { option in
                 Text(option.name)
             }
