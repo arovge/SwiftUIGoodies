@@ -35,3 +35,8 @@ Then simply use `import SwiftUIGoodies` in the appropriate file(s) to use these 
 - `Label`
     - `vertical` (iOS 14+)
         - A `.labelStyle(_:)` style for rendering a label in a vertical container
+- `Button`
+    - `loading` (iOS 15+)
+        - A `.buttonStyle(_:)` style for disabling + showing a loading action happening from a button press
+        - Disables the button and shows a `ProgressView()` in place of the label when the style is used
+        - Style is used when the `.loading(_:)` environment value is active
