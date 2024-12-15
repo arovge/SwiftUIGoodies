@@ -24,6 +24,8 @@ Then simply use `import SwiftUIGoodies` in the appropriate file(s) to use these 
     - A wrapper around `ContentUnavailableView` 
 - `LegacyLabeledContent` (iOS 13+)
     - A wrapper around `LabeledContent` 
+- `SimplePicker` (iOS 13+)
+    - A wrapper around `Picker` that eliminates possible run time errors when the selection and tagged item types are different.
 
 ### Styles
 - `LabeledContent`
